@@ -38,10 +38,9 @@ def store_race_result(year, round, result):
 
 def driver_positions(driver, year=None):
     """ Returns all finishing positions for a driver, ever """
+    query = ("SELECT position FROM results WHERE driver=?", (driver,))
     if year:
         query = ("SELECT position FROM results WHERE driver=? AND year=?", (driver, year))
-    else:
-        query - ("SELECT position FROM results WHERE driver=?", (driver,))
     positions = c().execute(*query).fetchall()
     return [p[0] for p in positions]
 
