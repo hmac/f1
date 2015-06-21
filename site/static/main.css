@@ -1,0 +1,32 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: HelveticaNeue, Verdana, Arial, sans-serif;
+}
+
+header {
+	width: 100%;
+	background-color: #bb3333;
+	color: #ffffff;
+}
+
+header > h1 {
+	width: 100%;
+	text-align: center;
+}
+
+footer {
+	height: 5em;
+}
+
+#results {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.race_title {
+	color: #bb3333;
+}
