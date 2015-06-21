@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+<head>
+<meta c="UTF-8"/>
+<title>F1 League</title>
+<link rel="stylesheet" href="/static/main.css">
+</head>
+<body>
+	<header>
+		<h1>F1 Results</h1>
+	</header>
+	<section id="results">
+		% for race in races:
+			<div class="race">
+			<h2 class="race_title">Race {{ race[0][2] }}</h2>
+			% for result in race:
+				<div class="result">
+					<span>{{ result[3] }} - </span>
+					<span>{{ result[0].replace('_', ' ').title() }}</span>
+					
+				</div>
+			% end
+			</div>
+		% end
+	</section>
+	<footer></footer>
+</body>
+</html>
