@@ -1,21 +1,20 @@
 # ----- Imports ----- #
 
 import os
-import sqlite3 as sql
+import db
+import scoring
 import bottle
 from bottle import Bottle, view, static_file, run
 
 
 # ----- Setup ----- #
 
-DB_PATH = "db.sqlite"
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 STATIC_PATH = CURRENT_DIR + '/site/static'
 
 app = Bottle()
 bottle.TEMPLATE_PATH.insert(0, CURRENT_DIR + '/site/views')
 
-conn = sql.connect(DB_PATH)
 
 
 # ----- Functions ----- #
@@ -39,22 +38,22 @@ def split_races(results):
 
 # ----- Routes ----- #
 
-@app.route('/')
+@app.route('/2014')
 @view('index.html')
 def index():
-
-	results = []
-
-	with conn:
-
-		cursor = conn.cursor()
-		cursor.execute('SELECT * FROM results where year > 2014')
-		results = cursor.fetchall()
-
+	query = 'SELECT * FROM results where year > 2014'
+	results = db.c().execute(query).fetchall()
 	races = split_races(results)
 
 	return dict(races=races)
 
+@app.route('/prices')
+@view('prices.html')
+def prices():
+	query = 'SELECT DISTINCT driver FROM results WHERE year = 2014'
+	drivers = db.c().execute(query).fetchall()
+	driver_prices = [(d[0], scoring.price(d[0])) for d in drivers]
+	return dict(prices=driver_prices)
 
 @app.route('/static/<filepath:path>')
 def load_static(filepath):

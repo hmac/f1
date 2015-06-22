@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>F1 League</title>
+<link rel="stylesheet" href="/static/main.css">
+</head>
+<body>
+	<header>
+		<h1>Driver Prices</h1>
+	</header>
+	<section id="prices">
+		% for price in prices:
+			<div class="driver">
+				<span>{{ price[0] }} - </span>
+				<span>{{ price[1] }}</span>
+			</div>
+		% end
+	</section>
+	<footer></footer>
+</body>
+</html>
