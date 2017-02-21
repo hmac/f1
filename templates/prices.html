@@ -10,13 +10,12 @@
 		<h1>Driver Prices</h1>
 	</header>
 	<section id="prices">
-		% for price in prices:
+		{% for price in prices %}
 			<div class="driver">
 				<span>{{ price[0] }} - </span>
 				<span>{{ price[1] }}</span>
 			</div>
-		% end
+		{% endfor %}
 	</section>
-	<footer></footer>
 </body>
 </html>
