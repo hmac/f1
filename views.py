@@ -46,7 +46,7 @@ def index():
 def prices():
 
 	query = 'SELECT DISTINCT driver FROM results WHERE year = 2014'
-	drivers = db.c().execute(query).fetchall()
+	drivers = db.fetchall(query)
 	driver_prices = [(d[0], scoring.price(d[0])) for d in drivers]
 
 	return render_template('prices.html', prices=driver_prices)
