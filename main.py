@@ -10,8 +10,7 @@ print("Price for Hamilton:", scoring.price('hamilton'))
 print("Hamilton's points so far:", scoring.points('hamilton'))
 
 
-def reset_db():
-    db.create_db()
+def seed_db():
     # Fetch all the Ergast data
     for i in range(1950, 2016):
         resp = requests.get("http://ergast.com/api/f1/%s.json" % (i,)).json()

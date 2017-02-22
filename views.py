@@ -36,7 +36,7 @@ def split_races(results):
 def index():
 
 	query = 'SELECT * FROM results where year > 2014'
-	results = db.c().execute(query).fetchall()
+	results = db.fetchall(query)
 	races = split_races(results)
 
 	return render_template('index.html', races=races)
