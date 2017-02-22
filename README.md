@@ -1,5 +1,7 @@
 # F1
 
+[![CircleCI](https://circleci.com/gh/hmac/f1.svg?style=svg)](https://circleci.com/gh/hmac/f1)
+
 ## Install
 
 Ideally set up a [virtual environment](https://docs.python.org/3/library/venv.html), and then run:
