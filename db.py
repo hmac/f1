@@ -1,37 +1,40 @@
-import psycopg2
+""" Handles database interation """
 import os
+import psycopg2
 
-DB_PATH = "db.sqlite"
-connection = None
-cursor = None
+CONNECTION = None
+CURSOR = None
 
 
 def conn():
-    global connection
-    if connection is None:
-        connection = psycopg2.connect(os.environ["DATABASE_URL"])
-    return connection
+    """ Returns a database connection """
+    global CONNECTION
+    if CONNECTION is None:
+        CONNECTION = psycopg2.connect(os.environ["DATABASE_URL"])
+    return CONNECTION
 
 
 def c():
-    global cursor
-    if cursor is None:
-        cursor = conn().cursor()
-    return cursor
+    """ Returns a cursor for the current database connection """
+    global CURSOR
+    if CURSOR is None:
+        CURSOR = conn().CURSOR()
+    return CURSOR
 
 
 def fetchall(query):
+    """ Takes a SQL query, executes it and returns the result set """
     with conn().cursor() as curs:
         curs.execute(query)
         return curs.fetchall()
 
 
-def migrate():
+def migrate(migrations_directory):
     """ Migrate the DB to the latest version """
     c = conn()
     with c:
         migrations = set(
-            [int(f.name.strip(".sql")) for f in os.scandir("./migrations")]
+            [int(f.name.strip(".sql")) for f in os.scandir(migrations_directory)]
         )
         with c.cursor() as curs:
             curs.execute("SELECT version FROM schema_migrations")
@@ -40,7 +43,7 @@ def migrate():
         for migration in sorted(list(migrations - existing)):
             with c.cursor() as curs:
                 print("Running migration %s" % migration)
-                sql = open("./migrations/%s.sql" % migration).read()
+                sql = open("%s/%s.sql" % (migrations_directory, migration)).read()
                 print(sql)
                 curs.execute(sql)
                 curs.execute(
