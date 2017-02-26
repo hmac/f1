@@ -33,8 +33,9 @@ def migrate(migrations_directory):
     """ Migrate the DB to the latest version """
     c = conn()
     with c:
+        migration_files = os.scandir(migrations_directory)
         migrations = set(
-            [int(f.name.strip(".sql")) for f in os.scandir(migrations_directory)]
+            [int(f.name.strip(".sql")) for f in migration_files]
         )
         with c.cursor() as curs:
             curs.execute("SELECT version FROM schema_migrations")
@@ -43,7 +44,8 @@ def migrate(migrations_directory):
         for migration in sorted(list(migrations - existing)):
             with c.cursor() as curs:
                 print("Running migration %s" % migration)
-                sql = open("%s/%s.sql" % (migrations_directory, migration)).read()
+                filename = "%s/%s.sql" % (migrations_directory, migration)
+                sql = open(filename).read()
                 print(sql)
                 curs.execute(sql)
                 curs.execute(
@@ -58,7 +60,9 @@ def store_race_result(year, round, result):
         for r in result:
             position = result.index(r)+1
             values = (r['driver'], year, round, position, r['status'].value)
-            curs.execute("INSERT INTO results values (%s, %s, %s, %s, %s)", values)
+            curs.execute(
+                "INSERT INTO results values (%s, %s, %s, %s, %s)", values
+            )
         conn().commit()
 
 
@@ -67,9 +71,10 @@ def driver_positions(driver, year=None):
     with conn().cursor() as curs:
         query = ("SELECT position FROM results WHERE driver = %s", (driver,))
         if year:
-            query = ("SELECT position FROM results WHERE driver = %s AND year = %s", (driver, year))
+            query = (
+                "SELECT position FROM results WHERE driver = %s AND year = %s",
+                (driver, year)
+            )
         curs.execute(*query)
         positions = curs.fetchall()
         return [p[0] for p in positions]
-
-

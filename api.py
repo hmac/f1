@@ -34,8 +34,6 @@ def race_result(year, round):
         return CarStatus.failure
 
     resp = requests.get(RACE_RESULT_URL % (year, round)).json()
-    results = [extract_result(r) for r in resp["MRData"]["RaceTable"]["Races"][0]["Results"]]
+    raw_results = resp["MRData"]["RaceTable"]["Races"][0]["Results"]
+    results = [extract_result(r) for r in raw_results]
     return results
-
-
-
