@@ -42,10 +42,10 @@ def migrate(migrations_directory):
             existing = set([v for (v,) in curs.fetchall()])
         c.commit()
         for migration in sorted(list(migrations - existing)):
-            with c.cursor() as curs:
-                print("Running migration %s" % migration)
-                filename = "%s/%s.sql" % (migrations_directory, migration)
-                sql = open(filename).read()
+            print(f'Running migration {migration}')
+            filename = '{migrations_directory}/{migration}.sql'
+            with c.cursor() as curs, open(filename) as sql_file:
+                sql = sql_file.read()
                 print(sql)
                 curs.execute(sql)
                 curs.execute(
