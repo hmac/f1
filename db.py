@@ -1,46 +1,51 @@
-import psycopg2
+""" Handles database interation """
 import os
+import psycopg2
 
-DB_PATH = "db.sqlite"
-connection = None
-cursor = None
+CONNECTION = None
+CURSOR = None
 
 
 def conn():
-    global connection
-    if connection is None:
-        connection = psycopg2.connect(os.environ["DATABASE_URL"])
-    return connection
+    """ Returns a database connection """
+    global CONNECTION
+    if CONNECTION is None:
+        CONNECTION = psycopg2.connect(os.environ["DATABASE_URL"])
+    return CONNECTION
 
 
 def c():
-    global cursor
-    if cursor is None:
-        cursor = conn().cursor()
-    return cursor
+    """ Returns a cursor for the current database connection """
+    global CURSOR
+    if CURSOR is None:
+        CURSOR = conn().CURSOR()
+    return CURSOR
 
 
 def fetchall(query):
+    """ Takes a SQL query, executes it and returns the result set """
     with conn().cursor() as curs:
         curs.execute(query)
         return curs.fetchall()
 
 
-def migrate():
+def migrate(migrations_directory):
     """ Migrate the DB to the latest version """
     c = conn()
     with c:
+        migration_files = os.scandir(migrations_directory)
         migrations = set(
-            [int(f.name.strip(".sql")) for f in os.scandir("./migrations")]
+            [int(f.name.strip(".sql")) for f in migration_files]
         )
         with c.cursor() as curs:
             curs.execute("SELECT version FROM schema_migrations")
             existing = set([v for (v,) in curs.fetchall()])
         c.commit()
         for migration in sorted(list(migrations - existing)):
-            with c.cursor() as curs:
-                print("Running migration %s" % migration)
-                sql = open("./migrations/%s.sql" % migration).read()
+            print(f'Running migration {migration}')
+            filename = '{migrations_directory}/{migration}.sql'
+            with c.cursor() as curs, open(filename) as sql_file:
+                sql = sql_file.read()
                 print(sql)
                 curs.execute(sql)
                 curs.execute(
@@ -55,7 +60,9 @@ def store_race_result(year, round, result):
         for r in result:
             position = result.index(r)+1
             values = (r['driver'], year, round, position, r['status'].value)
-            curs.execute("INSERT INTO results values (%s, %s, %s, %s, %s)", values)
+            curs.execute(
+                "INSERT INTO results values (%s, %s, %s, %s, %s)", values
+            )
         conn().commit()
 
 
@@ -64,9 +71,10 @@ def driver_positions(driver, year=None):
     with conn().cursor() as curs:
         query = ("SELECT position FROM results WHERE driver = %s", (driver,))
         if year:
-            query = ("SELECT position FROM results WHERE driver = %s AND year = %s", (driver, year))
+            query = (
+                "SELECT position FROM results WHERE driver = %s AND year = %s",
+                (driver, year)
+            )
         curs.execute(*query)
         positions = curs.fetchall()
         return [p[0] for p in positions]
-
-
