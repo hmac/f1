@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 1. Install [PostgreSQL](https://www.postgresql.org)
 2. `createdb f1`
-3. `echo "CREATE TABLE schema_migrations (version integer);" | psql f1`
+3. `echo "CREATE TABLE schema_migrations (version integer NOT NULL);" | psql f1`
 4. [optional] Install [autoenv](https://github.com/kennethreitz/autoenv) and `echo "DATABASE_URL=postgres://localhost:5432/f1" > .env`
 
 ## Run

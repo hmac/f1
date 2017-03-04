@@ -47,7 +47,7 @@ CREATE TABLE results (
 --
 
 CREATE TABLE schema_migrations (
-    version integer
+    version integer NOT NULL
 );
 
 
