@@ -35,7 +35,7 @@ def split_races(results):
 @app.route('/2014')
 def index():
 
-    query = 'SELECT * FROM results where year > 2014'
+    query = 'SELECT * FROM results WHERE year > 2014'
     results = db.fetchall(query)
     races = split_races(results)
 
