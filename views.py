@@ -39,7 +39,7 @@ def get_users():
         {'name': 'Dummy One', 'id': 1, 'points': 40},
         {'name': 'Dummy Two', 'id': 2, 'points': 34},
         {'name': 'Dummy Three', 'id': 3, 'points': 63}
-    ];
+    ]
 
 
 # ----- Routes ----- #

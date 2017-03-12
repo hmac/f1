@@ -85,7 +85,7 @@ def race_result(year, race):
     """Retrieves the results for a given race."""
 
     query = 'SELECT * FROM results WHERE year = %s AND round = %s'
-    
+
     with conn().cursor() as cur:
 
         cur.execute(query, (year, race))
