@@ -84,7 +84,13 @@ def race_result(year, race):
 
     """Retrieves the results for a given race."""
 
-    query = 'SELECT * FROM results WHERE year = %s AND round = %s'
+    query = """SELECT results.position AS position, drivers.name AS driver,
+                 teams.name AS team, results.points AS points
+                   FROM results, drivers, teams
+                     WHERE results.driver_id = drivers.id
+                       AND results.team_id = teams.id
+                       AND results.year = %s
+                       AND round = %s"""
 
     with conn().cursor() as cur:
 
