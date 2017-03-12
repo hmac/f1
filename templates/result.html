@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header>
+  <h1>Results - Round {{ race }} in {{ year }}</h1>
+</header>
+
+<table class="users">
+  <tr>
+    <th>Position</th>
+    <th>Driver</th>
+    <th>Team</th>
+    <th>Points</th>
+  </tr>
+
+  {% for result in results | sort(attribute='position') %}
+  <tr>
+    <td>{{ result.position }}</td>
+    <td>{{ result.driver }}</td>
+    <td>{{ result.team }}</td>
+    <td>{{ result.points }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

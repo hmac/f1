@@ -43,7 +43,7 @@ def migrate(migrations_directory):
         c.commit()
         for migration in sorted(list(migrations - existing)):
             print(f'Running migration {migration}')
-            filename = '{migrations_directory}/{migration}.sql'
+            filename = f'{migrations_directory}/{migration}.sql'
             with c.cursor() as curs, open(filename) as sql_file:
                 sql = sql_file.read()
                 print(sql)
@@ -78,3 +78,21 @@ def driver_positions(driver, year=None):
         curs.execute(*query)
         positions = curs.fetchall()
         return [p[0] for p in positions]
+
+
+def race_result(year, race):
+
+    """Retrieves the results for a given race."""
+
+    query = """SELECT results.position AS position, drivers.name AS driver,
+                 teams.name AS team, results.points AS points
+                   FROM results, drivers, teams
+                     WHERE results.driver_id = drivers.id
+                       AND results.team_id = teams.id
+                       AND results.year = %s
+                       AND round = %s"""
+
+    with conn().cursor() as cur:
+
+        cur.execute(query, (year, race))
+        return cur.fetchall()

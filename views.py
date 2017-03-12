@@ -30,16 +30,39 @@ def split_races(results):
     return races
 
 
+def get_users():
+
+    """Retrieves a list of users from the db."""
+
+    # Dummy data for now.
+    return [
+        {'name': 'Dummy One', 'id': 1, 'points': 40},
+        {'name': 'Dummy Two', 'id': 2, 'points': 34},
+        {'name': 'Dummy Three', 'id': 3, 'points': 63}
+    ]
+
+
 # ----- Routes ----- #
 
-@app.route('/2014')
+@app.route('/')
 def index():
 
-    query = 'SELECT * FROM results WHERE year > 2014'
-    results = db.fetchall(query)
-    races = split_races(results)
+    """The homepage displays the user leaderboard."""
 
-    return render_template('index.html', races=races)
+    users = get_users()
+
+    return render_template('index.html', users=users)
+
+
+@app.route('/result/<int:year>/<int:race>')
+def result(year, race):
+
+    """Displays the result for a given race."""
+
+    race_result = db.race_result(year, race)
+    template_data = {'result': race_result, 'year': year, 'race': race}
+
+    return render_template('result.html', **template_data)
 
 
 @app.route('/prices')
