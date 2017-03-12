@@ -78,3 +78,15 @@ def driver_positions(driver, year=None):
         curs.execute(*query)
         positions = curs.fetchall()
         return [p[0] for p in positions]
+
+
+def race_result(year, race):
+
+    """Retrieves the results for a given race."""
+
+    query = 'SELECT * FROM results WHERE year = %s AND round = %s'
+    
+    with conn().cursor() as cur:
+
+        cur.execute(query, (year, race))
+        return cur.fetchall()

@@ -47,9 +47,22 @@ def get_users():
 @app.route('/')
 def index():
 
+    """The homepage displays the user leaderboard."""
+
     users = get_users()
 
     return render_template('index.html', users=users)
+
+
+@app.route('/result/<int:year>/<int:race>')
+def result(year, race):
+
+    """Displays the result for a given race."""
+
+    race_result = db.race_result(year, race)
+    template_data = {'result': race_result, 'year': year, 'race': race}
+
+    return render_template('result.html', **template_data)
 
 
 @app.route('/prices')
