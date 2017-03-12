@@ -43,7 +43,7 @@ def migrate(migrations_directory):
         c.commit()
         for migration in sorted(list(migrations - existing)):
             print(f'Running migration {migration}')
-            filename = '{migrations_directory}/{migration}.sql'
+            filename = f'{migrations_directory}/{migration}.sql'
             with c.cursor() as curs, open(filename) as sql_file:
                 sql = sql_file.read()
                 print(sql)
