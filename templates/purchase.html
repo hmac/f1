@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Set Up Your Team</h1>
+
+<h2>DRIVERS</h2>
+<h3>CREDITS: 1000</h3>
+
+<table>
+  <tr>
+    <th>Driver</th>
+    <th>Cost</th>
+    <th>Select</th>
+  </tr>
+  {% for driver in drivers %}
+  <tr>
+    <td>{{ driver }}</td>
+    <td>300</td>
+    <td>
+      <input name="" type="checkbox" value=""/>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>TEAMS</h2>
+<h3>CREDITS: 1000</h3>
+
+<table>
+  <tr>
+    <th>Team</th>
+    <th>Cost</th>
+    <th>Select</th>
+  </tr>
+  {% for team in teams %}
+  <tr>
+    <td>{{ team }}</td>
+    <td>300</td>
+    <td>
+      <input name="" type="checkbox" value=""/>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<button type="submit">Save</button>
+{% endblock %}
