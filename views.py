@@ -80,7 +80,7 @@ def purchase():
 
     """Allows the user to set up their team for the year."""
 
-    drivers = db.fetchall('SELECT * FROM drivers')
-    teams =  db.fetchall('SELECT * FROM teams')
+    drivers = db.drivers()
+    teams =  db.teams()
 
     return render_template('purchase.html', drivers=drivers, teams=teams)
