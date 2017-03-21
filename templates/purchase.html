@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 
+{% block head %}
+<script type="text/javascript" src="/static/purchase.js"></script>
+{% endblock %}
+
 {% block content %}
 <h1>Set Up Your Team</h1>
 
 <h2>DRIVERS</h2>
 <h3>CREDITS: 1000</h3>
 
-<table>
+<table class="driver-table">
   <tr>
     <th>Driver</th>
     <th>Cost</th>
@@ -14,10 +18,10 @@
   </tr>
   {% for driver in drivers %}
   <tr>
-    <td>{{ driver }}</td>
-    <td>300</td>
+    <td>{{ driver['name'] }}</td>
+    <td>{{ driver['price'] }}</td>
     <td>
-      <input name="" type="checkbox" value=""/>
+      <input data-price="{{ driver['price'] }}" data-driver="{{ driver['id'] }}" type="checkbox" />
     </td>
   </tr>
   {% endfor %}
@@ -26,7 +30,7 @@
 <h2>TEAMS</h2>
 <h3>CREDITS: 1000</h3>
 
-<table>
+<table class="team-table">
   <tr>
     <th>Team</th>
     <th>Cost</th>
@@ -34,14 +38,14 @@
   </tr>
   {% for team in teams %}
   <tr>
-    <td>{{ team }}</td>
-    <td>300</td>
+    <td>{{ team['name'] }}</td>
+    <td>{{ team['price'] }}</td>
     <td>
-      <input name="" type="checkbox" value=""/>
+      <input data-price="{{ team['price'] }}" data-team="{{ team['id'] }}" type="checkbox" />
     </td>
   </tr>
   {% endfor %}
 </table>
 
-<button type="submit">Save</button>
+<button id="purchase" type="submit">Save</button>
 {% endblock %}
