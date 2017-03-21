@@ -81,6 +81,6 @@ def purchase():
     """Allows the user to set up their team for the year."""
 
     drivers = db.drivers()
-    teams =  db.teams()
+    teams = db.teams()
 
     return render_template('purchase.html', drivers=drivers, teams=teams)
