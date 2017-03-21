@@ -40,7 +40,8 @@ SET default_with_oids = false;
 
 CREATE TABLE drivers (
     id integer NOT NULL,
-    name text
+    name text,
+    price integer
 );
 
 
@@ -142,7 +143,8 @@ CREATE TABLE schema_migrations (
 
 CREATE TABLE teams (
     id integer NOT NULL,
-    name text
+    name text,
+    price integer
 );
 
 
@@ -303,3 +305,5 @@ INSERT INTO schema_migrations (version) VALUES (3);
 INSERT INTO schema_migrations (version) VALUES (4);
 INSERT INTO schema_migrations (version) VALUES (5);
 INSERT INTO schema_migrations (version) VALUES (6);
+INSERT INTO schema_migrations (version) VALUES (7);
+INSERT INTO schema_migrations (version) VALUES (8);
