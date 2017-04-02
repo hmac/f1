@@ -73,3 +73,14 @@ def prices():
     driver_prices = [(d[0], scoring.price(d[0])) for d in drivers]
 
     return render_template('prices.html', prices=driver_prices)
+
+
+@app.route('/purchase')
+def purchase():
+
+    """Allows the user to set up their team for the year."""
+
+    drivers = db.drivers()
+    teams = db.teams()
+
+    return render_template('purchase.html', drivers=drivers, teams=teams)

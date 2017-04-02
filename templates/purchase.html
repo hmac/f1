@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="/static/purchase.js"></script>
+{% endblock %}
+
+{% block content %}
+<h1>Set Up Your Team</h1>
+
+<h2>DRIVERS</h2>
+<h3>CREDITS: 1000</h3>
+
+<table class="driver-table">
+  <tr>
+    <th>Driver</th>
+    <th>Cost</th>
+    <th>Select</th>
+  </tr>
+  {% for driver in drivers %}
+  <tr>
+    <td>{{ driver['name'] }}</td>
+    <td>{{ driver['price'] }}</td>
+    <td>
+      <input data-price="{{ driver['price'] }}" data-driver="{{ driver['id'] }}" type="checkbox" />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>TEAMS</h2>
+<h3>CREDITS: 1000</h3>
+
+<table class="team-table">
+  <tr>
+    <th>Team</th>
+    <th>Cost</th>
+    <th>Select</th>
+  </tr>
+  {% for team in teams %}
+  <tr>
+    <td>{{ team['name'] }}</td>
+    <td>{{ team['price'] }}</td>
+    <td>
+      <input data-price="{{ team['price'] }}" data-team="{{ team['id'] }}" type="checkbox" />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<button id="purchase" type="submit">Save</button>
+{% endblock %}

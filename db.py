@@ -1,6 +1,7 @@
 """ Handles database interation """
 import os
 import psycopg2
+import psycopg2.extras
 
 CONNECTION = None
 CURSOR = None
@@ -95,4 +96,24 @@ def race_result(year, race):
     with conn().cursor() as cur:
 
         cur.execute(query, (year, race))
+        return cur.fetchall()
+
+
+def drivers():
+
+    """Retrieves all the drivers."""
+
+    with conn().cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+
+        cur.execute('SELECT * FROM drivers')
+        return cur.fetchall()
+
+
+def teams():
+
+    """Retrieves all the teams."""
+
+    with conn().cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+
+        cur.execute('SELECT * FROM teams')
         return cur.fetchall()
